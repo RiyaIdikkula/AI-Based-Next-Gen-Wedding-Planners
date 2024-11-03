@@ -1,0 +1,311 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>WoodCrest</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #f4f4f4;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --header-height: 80px;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        header {
+            
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background-color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 8px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .main-content {
+            
+            margin-top: var(--header-height);
+        }
+
+        .slideshow {
+            
+            width: 100%;
+            height: calc(100vh - var(--header-height));
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: white;
+        }
+
+        .service-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .services-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .service-box {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 30px;
+            width: 220px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-box h3 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 15px;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+            }
+
+            .header-title {
+                font-size: 24px;
+                margin: 10px 0;
+            }
+
+            .service-box {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .slideshow {
+                height: 50vh;
+            }
+        }
+
+        .nav-link.book-now {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .nav-link.book-now:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.5s;
+            z-index: -1;
+        }
+
+        .nav-link.book-now:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .nav-link.book-now:hover:before {
+            left: 100%;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+            }
+        }
+
+        .nav-link.book-now {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <h1 class="header-title">Next-Gen Wedding Planner</h1>
+                    {% comment %} <img src="{% static 'img/logo1.jpg' %}" alt="WoodCrest Logo"> {% endcomment %}
+                </a>
+            </div>
+           
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'cater_list' %}" class="nav-link">Package</a></li>
+                    {% comment %} <li><a href="http://localhost:8501" target="_blank"><i class="fa fa-gift"></i> TryOn</a></li> {% endcomment %}
+{% comment %} <li class="nav-item"><a href="{% url 'preferences_view' %}" class="nav-link">Dress</a></li>  {% endcomment %}
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Account</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'profile_view' %}">Profile</a>
+                       <a href="{% url 'customer_page' %}">Booked</a> 
+                       <a href="{% url 'submit_feedback' %}">Feedback</a> 
+                       <a href="{% url 'submit_complaint' %}">Complaint</a> 
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a href="{% url 'register' %}" class="nav-link book-now">Book Now</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    {% comment %} <div class="main-content">
+        <!-- Slideshow Section -->
+        <div class="slideshow">
+            <img src="{% static 'img/slideshow-image1.jpg' %}" alt="Slideshow Image">
+        </div>
+    </div> {% endcomment %}
+
+   
+</body>
+</html>

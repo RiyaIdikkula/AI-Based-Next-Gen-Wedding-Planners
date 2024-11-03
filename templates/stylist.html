@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Professional Stylists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --text-color: #333;
+            --bg-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 20px auto 0;
+        }
+
+        .stylist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .stylist-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stylist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stylist-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .stylist-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .stylist-card:hover .stylist-image img {
+            transform: scale(1.1);
+        }
+
+        .stylist-info {
+            padding: 20px;
+        }
+
+        .stylist-name {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin: 0 0 10px;
+        }
+
+        .stylist-details {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .stylist-description {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .contact-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .contact-button:hover {
+            background-color: #d35400;
+        }
+
+        @media (max-width: 768px) {
+            .stylist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% include 'headercustomer.html' %}
+        </header>
+    <div class="container">
+        <h1>Our Professional Stylists</h1>
+        <div class="stylist-grid">
+            {% for stylist in stylists %}
+            <div class="stylist-card">
+                <div class="stylist-image">
+                    {% if stylist.images.first %}
+                    <img src="{{ stylist.images.first.image.url }}" alt="{{ stylist.name }}">
+                    {% endif %}
+                </div>
+                <div class="stylist-info">
+                    <h2 class="stylist-name">{{ stylist.name }}</h2>
+                    <div class="stylist-details">
+                        <p><strong>Specialization:</strong> {{ stylist.specialization }}</p>
+                    </div>
+                    <p class="stylist-description">{{ stylist.description|truncatewords:20 }}</p>
+                    <a href="{% url 'stylist_index' stylist_id=stylist.stylist_id %}" class="contact-button">View More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+</body>
+</html>

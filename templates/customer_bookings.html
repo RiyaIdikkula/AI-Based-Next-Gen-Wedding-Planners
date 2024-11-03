@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #4a4a4a;
+            text-align: center;
+        }
+
+        .wedding-details {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin: 20px 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .wedding-details:hover {
+            transform: scale(1.02);
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        strong {
+            color: #555;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+
+        @media screen and (max-width: 600px) {
+            .wedding-details {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'headercustomer.html' %}
+    <h1>Your Wedding Bookings</h1>
+
+    {% if wedding_info_list %}
+        {% for wedding_info in wedding_info_list %}
+            <div class="wedding-details">
+                <p><strong>Customer Name:</strong> {{ wedding_info.customer_name }}</p>
+                <p><strong>Bride Name:</strong> {{ wedding_info.bride_name }}</p>
+                <p><strong>Groom Name:</strong> {{ wedding_info.groom_name }}</p>
+                <p><strong>Guest Count:</strong> {{ wedding_info.guest_count }}</p>
+                <p><strong>Wedding Dates:</strong> {{ wedding_info.wedding_dates }}</p>
+                <p><strong>Venue Address:</strong> {{ wedding_info.venue_address }}</p>
+                <p><strong>Package:</strong> {{ wedding_info.package.name }}</p>
+                {% comment %} <p><strong>Total Amount Paid:</strong> ₹{{ wedding_info.total_amount }}</p> {% endcomment %}
+                {% comment %} <p><strong>Payment ID:</strong> {{ wedding_info.razorpay_payment_id }}</p> {% endcomment %}
+                <p><strong>Booking Date:</strong> {{ wedding_info.created_at }}</p>
+            </div>
+            <hr/>
+        {% endfor %}
+    {% else %}
+        <p>No wedding details found.</p>
+    {% endif %}
+</body>
+</html>

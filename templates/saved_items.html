@@ -1,0 +1,23 @@
+
+{% block content %}
+<div class="container">
+    <h1>Your Selected Items for {{ package.name }}</h1>
+    <ul id="savedItemsList"></ul>
+</div>
+</div>
+<script>
+function displaySavedItems() {
+    let savedItems = JSON.parse(localStorage.getItem('savedItems')) || {};
+    let packageItems = savedItems['{{ package.package_id }}'] || [];
+    let list = document.getElementById('savedItemsList');
+    list.innerHTML = '';
+    packageItems.forEach(item => {
+        let li = document.createElement('li');
+        li.textContent = `${item.name} (${item.type})`;
+        list.appendChild(li);
+    });
+}
+
+displaySavedItems();
+</script>
+{% endblock %}

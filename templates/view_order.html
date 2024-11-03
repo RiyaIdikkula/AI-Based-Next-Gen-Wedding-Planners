@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* Copy the CSS from dessert_detail.html and add/modify as needed */
+        .order-item {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+    </style>
+</head>
+<body>
+    {% include 'headercustomer.html' %}
+
+    <div class="container-wrapper">
+        <h1>Your Order</h1>
+        {% if order %}
+            {% for item in order %}
+                <div class="order-item">
+                    <h2>{{ item.name }}</h2>
+                    <p>{{ item.description }}</p>
+                    <p><strong>Type:</strong> {{ item.type|title }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Your order is empty.</p>
+        {% endif %}
+        <a href="javascript:history.back()" class="btn">Back to Menu</a>
+    </div>
+</body>
+</html>

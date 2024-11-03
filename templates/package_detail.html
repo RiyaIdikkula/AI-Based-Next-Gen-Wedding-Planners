@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Details</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Slick CSS for the slideshow -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,700);
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #aedaa6;
+            font-family: "Raleway";
+            padding-top: 60px; /* Adjust this value based on your header height */
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #fff; /* Adjust as needed */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 170px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Add space between header and content */
+        }
+
+        .card {
+            display: flex;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .photo {
+            flex: 1;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .description {
+            flex: 1;
+            padding: 30px;
+            border-left: 2px solid #efefef;
+        }
+
+        .description h1,
+        .description h2,
+        .description h4,
+        .description p {
+            margin: 0;
+        }
+
+        .description h1 {
+            color: #515151;
+            font-weight: 300;
+            padding-top: 15px;
+            font-size: 30px;
+        }
+
+        .description h2,
+        .description h4 {
+            color: #515151;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .description p {
+            font-size: 12px;
+            line-height: 20px;
+            color: #727272;
+            padding: 20px 0;
+        }
+
+        .description button {
+            outline: 0;
+            border: 1px solid #d9d9d9;
+            padding: 8px 0px;
+            margin-bottom: 30px;
+            color: #515151;
+            text-transform: uppercase;
+            width: 125px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-right: 5px;
+        }
+
+        .description button:hover {
+            border: 1px solid #aedaa6;
+            color: #aedaa6;
+            cursor: pointer;
+        }
+
+        /* Hide Slick navigation arrows and dots */
+        .slick-prev,
+        .slick-next,
+        .slick-dots {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        {% include 'headercustomer.html' %}
+    </header>
+
+    <div class="container-wrapper">
+        <div class="container mt-5">
+            <h1>{{ package.name }} Details</h1>
+            
+            <div class="row mt-4">
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'photographer_details' package.package_id %}" class="btn btn-primary btn-block">Photographer</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'event_details' package.package_id %}" class="btn btn-primary btn-block">Events</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'stylist_details' package.package_id %}" class="btn btn-primary btn-block">Stylist</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'starter_details' package.package_id %}" class="btn btn-primary btn-block">Starter</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'main_course_details' package.package_id %}" class="btn btn-primary btn-block">Main Course</a>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'dessert_details' package.package_id %}" class="btn btn-primary btn-block">Dessert</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include jQuery, Slick JS for the slideshow -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.slider').slick({
+                dots: false, // Hide navigation dots
+                infinite: true, // Loop through slides
+                speed: 500, // Transition speed
+                slidesToShow: 1, // Show one slide at a time
+                autoplay: true, // Enable automatic slideshow
+                autoplaySpeed: 2000 // Slide duration
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On</title>
+</head>
+<body>
+    <h1>Try a Dress with Virtual Try-On</h1>
+
+    <!-- Webcam Stream -->
+    <div>
+        <video id="webcam" autoplay></video>
+        <button id="capture">Capture</button>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Upload Image Option -->
+    <h2>Or Upload Your Image</h2>
+    <input type="file" id="upload" accept="image/*">
+
+    <h2>Available Dresses</h2>
+    <!-- Sample dress images to try on -->
+    <img src="/media/dresses/dress1.jpg" id="dress1" alt="Dress 1">
+    <img src="/media/dresses/dress2.jpg" id="dress2" alt="Dress 2">
+
+    <script>
+        const webcam = document.getElementById('webcam');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const captureButton = document.getElementById('capture');
+        const upload = document.getElementById('upload');
+
+        // Access the webcam stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                webcam.srcObject = stream;
+            })
+            .catch(err => {
+                console.error('Error accessing webcam:', err);
+            });
+
+        // Capture image from webcam
+        captureButton.addEventListener('click', () => {
+            canvas.width = webcam.videoWidth;
+            canvas.height = webcam.videoHeight;
+            context.drawImage(webcam, 0, 0);
+        });
+
+        // Handle image upload
+        upload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img, 0, 0);
+                };
+                img.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        // Dress click handling logic goes here...
+        const dress1 = document.getElementById('dress1');
+        dress1.addEventListener('click', () => {
+            const img = new Image();
+            img.src = dress1.src;
+            img.onload = function () {
+                context.drawImage(img, 50, 50, 200, 300); // Adjust these values as needed
+            };
+        });
+    </script>
+</body>
+</html>

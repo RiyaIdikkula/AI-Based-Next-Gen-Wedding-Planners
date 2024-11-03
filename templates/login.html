@@ -1,0 +1,259 @@
+{% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Based Wedding Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<style>
+    :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --text-color: #333;
+        --bg-color: #f7f7f7;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    .container {
+        max-width: 350px;
+        width: 100%;
+        background-color: var(--bg-color);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    header h1 {
+        font-size: 22px;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    header p {
+        color: var(--text-color);
+        font-size: 13px;
+        opacity: 0.8;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        font-size: 13px;
+        color: #999;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+        transition: all 0.3s ease;
+        background-color: transparent;
+    }
+
+    input:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+    }
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+        top: 0;
+        font-size: 10px;
+        color: var(--secondary-color);
+        background-color: var(--bg-color);
+        padding: 0 3px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+    }
+
+    button:hover {
+        background-color: #ff5252;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .forgot-password,
+    .signin-google {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .forgot-password:hover,
+    .signin-google:hover {
+        color: #ff5252;
+    }
+
+    .login-message {
+        text-align: center;
+        color: var(--text-color);
+        font-size: 12px;
+        margin-top: 15px;
+    }
+
+    .login-message a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .login-message a:hover {
+        color: #ff5252;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 15px;
+        color: var(--text-color);
+        opacity: 0.7;
+        font-size: 11px;
+    }
+
+    .error {
+        display: none;
+        font-size: 10px;
+        color: #e53e3e;
+        margin-top: 3px;
+    }
+
+    .background-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+    }
+</style>
+<body>
+    
+    <div class="background-shapes"></div>
+    <div class="container">
+        <header>
+            <h1>Next Gen Wedding Planner</h1>
+            <p>Login to your account</p>
+        </header>
+        <form id="loginform" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" id="email" name="email" required placeholder=" ">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" required placeholder=" ">
+                <label for="password">Password</label>
+            </div>
+            <button id="submit" type="submit">Login</button>
+            <a href="{% url 'password_reset_form' %}" class="forgot-password">Forgot Password?</a>
+            <a href="{% provider_login_url 'google' %}" class="signin-google">Continue with Google</a>
+        </form>
+        <p class="login-message">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        <footer>
+            <p>&copy; 2024 Next Gen Wedding Planner. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // GSAP animations
+        gsap.to('.container', {duration: 1, opacity: 1, y: 0, ease: 'power3.out'});
+
+        // Create background shapes
+        const shapes = gsap.utils.toArray('.shape');
+        const numShapes = 20;
+
+        for (let i = 0; i < numShapes; i++) {
+            const shape = document.createElement('div');
+            shape.classList.add('shape');
+            document.querySelector('.background-shapes').appendChild(shape);
+
+            gsap.set(shape, {
+                x: gsap.utils.random(0, window.innerWidth),
+                y: gsap.utils.random(0, window.innerHeight),
+                scale: gsap.utils.random(0.1, 0.6),
+                opacity: gsap.utils.random(0.2, 0.6)
+            });
+
+            gsap.to(shape, {
+                x: '+=100',
+                y: '+=100',
+                rotation: 360,
+                duration: gsap.utils.random(10, 20),
+                repeat: -1,
+                yoyo: true,
+                ease: 'none'
+            });
+        }
+    </script>
+</body>
+</html>

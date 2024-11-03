@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 8000px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        th {
+            background-color: #574b90;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9fb;
+        }
+
+        tr:hover {
+            background-color: #f1f1f9;
+            transition: background-color 0.2s ease;
+        }
+
+        td {
+            color: #666;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-wrapper">
+        {% include 'admin/sidebar.html' %}
+        
+        <div class="container">
+            <h1>Checkout Details</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bride Name</th>
+                        <th>Groom Name</th>
+                        <th>Address</th>
+                        <th>Wedding Dates</th>
+                        <th>Guest Count</th>
+                        <th>Package Name</th>
+                        <th>Payment Date</th>
+                        {% comment %} <th>Total Amount</th> {% endcomment %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkout in checkouts %}
+                    <tr>
+                        <td>{{ checkout.bride_name }}</td>
+                        <td>{{ checkout.groom_name }}</td>
+                        <td>{{ checkout.address }}</td>
+                        <td>{{ checkout.wedding_dates }}</td>
+                        <td>{{ checkout.guest_count }}</td>
+                        <td>{{ checkout.package }}</td>
+                        <td>{{ checkout.created_at }}</td> <!-- Ensure correct date -->
+                        {% comment %} <td>₹{{ checkout.total_amount }}</td> {% endcomment %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #34495e;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: var(--card-background);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .content-area {
+            margin-top: 200px;  /* Adjust this value as needed */
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Ensures the header stays on top */
+            background-color: white; /* Add background color to avoid overlap issues */
+        }
+
+        .package-header {
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        .package-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .package-header p {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .menu-grid {
+            background-color: var(--card-background);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .menu-item {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .menu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover .menu-item-image img {
+            transform: scale(1.1);
+        }
+
+        .menu-item-content {
+            padding: 15px;
+        }
+
+        .menu-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-item p {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-add {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .btn-view-more {
+            background-color: var(--primary-color);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: var(--text-color);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container-wrapper {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        {% include 'headercustomer.html' %}
+    </header>
+    <div class="content-area">
+        <div class="container-wrapper">
+            <div class="package-header">
+                <h1>{{ package.name }}</h1>
+                <p><strong>Price:</strong> {{ package.price }}</p>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Starters</h2>
+                </div>
+                <div class="menu-grid">
+                    {% for starter in starters %}
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <h3>{{ starter.name }}</h3>
+
+                            <div class="btn-container">
+                                <button class="btn btn-add" onclick="addItem('{{ starter.starter_id }}', '{{ starter.name }}', 'starter')">Add</button>
+                                <a href="{% url 'starter_detail' item_id=starter.starter_id %}" class="btn btn-view-more">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">No starters available for this package.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Main Courses</h2>
+                </div>
+                <div class="menu-grid">
+                    {% for main_course in main_courses %}
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <h3>{{ main_course.name }}</h3>
+
+                            <div class="btn-container">
+                                <button class="btn btn-add" onclick="addItem('{{ main_course.main_course_id }}', '{{ main_course.name }}', 'main_course')">Add</button>
+                                <a href="{% url 'main_course_detail' item_id=main_course.main_course_id %}" class="btn btn-view-more">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">No main courses available for this package.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Desserts</h2>
+                </div>
+                <div class="menu-grid">
+                    {% for dessert in desserts %}
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <h3>{{ dessert.name }}</h3>
+
+                            <div class="btn-container">
+                                <button class="btn btn-add" onclick="addItem('{{ dessert.dessert_id }}', '{{ dessert.name }}', 'dessert')">Add</button>
+                                <a href="{% url 'dessert_detail' item_id=dessert.dessert_id %}" class="btn btn-view-more">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">No desserts available for this package.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addItem(id, name, type) {
+            // Retrieve saved items from localStorage or create an empty array if not found
+            let savedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+
+            // Add the new item to the saved items array
+            savedItems.push({ id: id, name: name, type: type });
+
+            // Save the updated items array back to localStorage
+            localStorage.setItem('savedItems', JSON.stringify(savedItems));
+
+            // Display an alert to confirm the addition
+            alert(name + ' added to your selection!');
+
+            // Redirect to the cart page (modify this to your actual cart page URL)
+            window.location.href = '/cart'; // Replace '/cart' with your actual cart page URL
+        }
+
+        function addItem(id, name, type, packageName, imageUrl) {
+            addToBooking(type, id, name, packageName, imageUrl);
+        }
+    </script>
+</body>
+
+</html>

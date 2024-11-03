@@ -1,0 +1,43 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'headercustomer.html' %}
+    <div class="container">
+        <h1>Cart</h1>
+
+        <h2>Stylists</h2>
+        <ul>
+            {% for stylist in stylists %}
+    <li>{{ stylist.name }} - <a href="{% url 'remove_from_cart' stylist.stylist_id %}">Remove</a></li>
+{% empty %}
+                <li>No stylists in cart.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Photographers</h2>
+        <ul>
+            {% for photographer in photographers %}
+                <li>{{ photographer.name }} - <a href="{% url 'remove_from_cart' photographer.id %}">Remove</a></li>
+            {% empty %}
+                <li>No photographers in cart.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Packages</h2>
+        <ul>
+            {% for package in packages %}
+                <li>{{ package.name }} - <a href="{% url 'remove_from_cart' package.id %}">Remove</a></li>
+            {% empty %}
+                <li>No packages in cart.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

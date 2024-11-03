@@ -1,0 +1,25 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Theme Recommendation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Your Wedding Theme Recommendation</h2>
+        {% if recommendation %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Theme: {{ recommendation.theme }}</h5>
+                    <p class="card-text">Color Palette: {{ recommendation.palette|join:", " }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p class="mt-3">Sorry, we could not generate a recommendation at this time.</p>
+        {% endif %}
+        <a href="{% url 'preferences_view' %}" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+</body>
+</html> {% endcomment %}

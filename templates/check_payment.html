@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Complete Payment for {{ selected_package.name }}</h2>
+    <p>Total Amount: ₹{{ amount }}</p>
+
+    <button id="rzp-button1">Pay Now</button>
+
+    <form id="paymentForm" method="POST" action="{% url 'checkout_success' %}">
+        {% csrf_token %}
+        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+        <input type="hidden" name="amount" value="{{ amount }}">
+    </form>
+
+    <script>
+        document.getElementById('rzp-button1').onclick = function(e) {
+            e.preventDefault();
+
+            var options = {
+                "key": "{{ razorpay_key }}",
+                "amount": "{{ amount|floatformat:0 }}00",
+                "currency": "INR",
+                "name": "Wedding Planner",
+                "description": "Complete your payment",
+                "order_id": "{{ razorpay_order_id }}",
+                "handler": function (response){
+                    document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                    document.getElementById('paymentForm').submit();
+                },
+                "theme": {
+                    "color": "#F37254"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        };
+    </script>
+</body>
+</html>

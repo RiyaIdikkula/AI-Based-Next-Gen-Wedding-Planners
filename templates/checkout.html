@@ -1,0 +1,419 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Wedding Information</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        p.error {
+            display: none;
+            font-size: 10px;
+            color: #e53e3e;
+            margin-top: 3px;
+        }
+        
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin: 20px 0;
+            margin-top: 130px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+            outline: none;
+            background-color: #ffffff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        #calculateBudgetBtn {
+            background-color: #6c5ce7;
+            width: 70%;
+            max-width: 210px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #calculateBudgetBtn:hover {
+            background-color: #5b4cdb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #placeOrderBtn {
+            background-color: #ff7675;
+            width: 80%;
+            max-width: 400px;
+            padding: 14px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+            margin: 20px auto;
+            display: block;
+            border: none;
+            cursor: pointer;
+        }
+
+        #placeOrderBtn:hover {
+            background-color: #e66767;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .result-container h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #result, #total-cost, #order-total {
+            font-size: 24px;
+            font-weight: 700;
+            color: #6c5ce7;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .messages li {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .messages li.success {
+            background-color: #00b894;
+        }
+
+        .messages li.error {
+            background-color: #d63031;
+        }
+
+        .flatpickr-input {
+            background-color: white;
+        }
+
+        .flatpickr-day.selected {
+            background-color: #6c5ce7;
+            border-color: #6c5ce7;
+        }
+
+        .flatpickr-day.selected:hover {
+            background-color: #5b4cdb;
+        }
+
+        p.error {
+        display: none;
+        font-size: 10px;
+        color: #e53e3e;
+        margin-top: 3px;
+    }
+    </style>
+</head>
+<body>
+    {% include 'headercustomer.html' %}
+    <div class="form-container">
+        <h2>Wedding Information</h2>
+        {% comment %} {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endcomment %}
+        <form method="POST" id="checkoutForm">
+            {% csrf_token %}
+            <label for="customerName">Your Name:</label>
+            <input type="text" id="customerName" name="customerName" value="{{ user.username }}" readonly>
+            <p id="error1" class="error">Name must be alphabets only</p>
+
+            <label for="brideName">Bride's Name:</label>
+            <input type="text" id="brideName" name="brideName" required>
+            <p id="brideName-error" class="error">Name must be alphabets only</p>
+
+            <label for="groomName">Groom's Name:</label>
+            <input type="text" id="groomName" name="groomName" required>
+            <p id="groomName-error" class="error">Name must be alphabets only</p>
+
+            <label for="guestCount">Total Number of Guests:</label>
+            <input type="number" id="guestCount" name="guestCount" min="1" required>
+
+            <label for="weddingDates">Wedding Dates:</label>
+            <input type="text" id="weddingDates" name="weddingDates" required>
+            <p id="weddingDates-error"  class="error">Please select a valid date.</p>
+
+            {% comment %} <label for="weddingDates">Wedding Date:</label>
+        <input type="text" id="weddingDates" name="wedding_dates" required>
+        <p id="dateError" id="weddingDates-error"  class="error" style="color: red; display: none;">Please select a valid date within the allowed range.</p> {% endcomment %}
+
+            <label for="address">Wedding Venue Address:</label>
+            <textarea id="address" name="address" placeholder="Enter the address of the wedding venue" required></textarea>
+
+            <label for="package_display">Selected Package:</label>
+            {% if selected_package %}
+                <input type="text" id="package_display" value="{{ selected_package.name }} - ${{ selected_package.price }}" readonly>
+                <input type="hidden" id="package_price" value="{{ selected_package.price }}">
+                <input type="hidden" name="package_id" value="{{ selected_package.package_id }}">
+            {% else %}
+                <input type="text" id="package_display" value="No package selected" readonly>
+            {% endif %}
+
+            <button type="button" id="calculateBudgetBtn">Calculate Budget</button>
+
+            <div class="result-container">
+                <h2>Estimated Additional Budget with Guest Count: <span id="guestTotal">$0.00</span></h2>
+            </div>
+
+            <p>This is the total amount expected for payment. You can pay half for booking. Once booked, changes are not allowed and refunds are not available. For issues, contact us.</p>
+            <label for="Amount">Total Amount to Pay: <span id="order-total">$0.00</span></label>
+            <p>This is the amount to pay now</p>
+            <label for="half-amount">Half of Total Amount: <span id="half-amount">$0.00</span></label>
+
+            <button type="button" id="placeOrderBtn">Place an Order</button>
+        </form>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('#weddingDates', {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+            minDate: 'today',
+            altInput: true,
+            altFormat: 'F j, Y'
+        });
+
+        function calculateBudget() {
+            const guestCount = parseInt(document.getElementById('guestCount').value) || 0;
+            const packagePrice = parseFloat(document.getElementById('package_price').value) || 0;
+            const additionalBudget = guestCount * 50;
+            const totalCost = packagePrice + additionalBudget;
+            const halfTotalCost = totalCost / 2;
+
+            document.getElementById('guestTotal').textContent = '$' + additionalBudget.toFixed(2);
+            document.getElementById('order-total').textContent = '$' + totalCost.toFixed(2);
+            document.getElementById('half-amount').textContent = '$' + halfTotalCost.toFixed(2);
+        }
+
+        document.getElementById('calculateBudgetBtn').addEventListener('click', calculateBudget);
+
+        document.getElementById('placeOrderBtn').onclick = function(e) {
+            e.preventDefault();
+            const totalAmount = parseFloat(document.getElementById('half-amount').textContent.replace('$', '')) * 100;
+
+            const options = {
+                "key": "rzp_test_kuS91ojzsMscI2",
+                "amount": totalAmount,
+                "currency": "INR",
+                "name": "Wedding Planner",
+                "description": "Package Payment",
+                "image": "{% static 'images/logo.png' %}",
+                "handler": function (response) {
+                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    document.getElementById('checkoutForm').submit();
+                },
+                "prefill": {
+                    "name": "{{ user.username }}",
+                    "email": "{{ user.email }}"
+                },
+                "theme": {
+                    "color": "#4CAF50"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        };
+
+        
+        $(document).ready(function () {
+            // Define patterns for validation
+            var namePattern = /^[a-zA-Z\s]*$/;
+            var phonePattern = /^[6-9]\d{9}$/;
+            var pricePattern = /^[\d,]+(\.\d{2})?$/;
+        
+            // Validate bride's name
+            $("#brideName").keyup(function () {
+                var name = $(this).val();
+                if (!namePattern.test(name)) {
+                    $("#brideName-error").show();
+                } else {
+                    $("#brideName-error").hide();
+                }
+            });
+        
+            // Validate groom's name
+            $("#groomName").keyup(function () {
+                var name = $(this).val();
+                if (!namePattern.test(name)) {
+                    $("#groomName-error").show();
+                } else {
+                    $("#groomName-error").hide();
+                }
+            });
+        
+            // Validate phone number (if applicable)
+            $("#phone").keyup(function () {
+                var phone = $(this).val();
+                if (!phonePattern.test(phone)) {
+                    $("#phone-error").show();
+                } else {
+                    $("#phone-error").hide();
+                }
+            });
+        
+            // Validate price (if applicable)
+            $("#price").keyup(function () {
+                var price = $(this).val();
+                if (!pricePattern.test(price)) {
+                    $("#price-error").show();
+                } else {
+                    $("#price-error").hide();
+                }
+            });
+        
+            // Validate images (if applicable)
+            $("#images").change(function () {
+                var files = $(this).get(0).files;
+                var validExtensions = ['image/jpeg', 'image/png', 'image/gif'];
+                var maxSize = 5 * 1024 * 1024; // 5 MB
+                var isValid = true;
+        
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!validExtensions.includes(file.type)) {
+                        isValid = false;
+                        break;
+                    }
+                    if (file.size > maxSize) {
+                        isValid = false;
+                        break;
+                    }
+                }
+        
+                if (isValid) {
+                    $("#image-error").hide();
+                } else {
+                    $("#image-error").show();
+                }
+            });
+        });
+
+        {% comment %} document.getElementById("checkoutForm").addEventListener("button", function(event) {
+            const weddingDateInput = document.getElementById("weddingDates").value;
+            const dateError = document.getElementById("dateError");
+
+            if (!weddingDateInput) {
+                event.preventDefault();
+                dateError.textContent = "Please select a date.";
+                dateError.style.display = "block";
+                return;
+            }
+
+            // Convert the selected date to a Date object for comparison
+            const selectedDate = new Date(weddingDateInput);
+            const today = new Date();
+            const maxDate = new Date(today.getFullYear() + 2, today.getMonth(), today.getDate());
+
+            // Validate if within range
+            if (selectedDate < today || selectedDate > maxDate) {
+                event.preventDefault();
+                dateError.textContent = "Please select a valid date within the allowed range.";
+                dateError.style.display = "block";
+            } else {
+                dateError.style.display = "none";
+            }
+        }); {% endcomment %}
+    </script>
+</body>
+</html>

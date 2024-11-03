@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On</title>
+    <style>
+        #canvas {
+            position: absolute;
+            z-index: 10;
+            display: none; /* Hide canvas initially */
+        }
+        #uploaded-image {
+            max-width: 300px; /* Adjust as needed */
+            margin: 10px;
+            display: none; /* Hide initially */
+        }
+        .dress {
+            cursor: pointer; /* Indicate dress is clickable */
+            max-width: 200px; /* Adjust as needed */
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Try a Dress with Virtual Try-On</h1>
+
+    <h2>Upload Your Image</h2>
+    <input type="file" id="image-upload" accept="image/*">
+    <button id="upload-button">Upload</button>
+    
+    <h2>Your Uploaded Image</h2>
+    <img id="uploaded-image" src="" alt="Uploaded Image">
+    <canvas id="canvas"></canvas>
+
+    <h2>Available Dresses</h2>
+    <div id="dress-container">
+        {% for image in uploaded_images %}
+            <img src="{{ image }}" alt="Dress" class="dress" id="dress{{ forloop.counter }}">
+        {% endfor %}
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('image-upload');
+        const uploadButton = document.getElementById('upload-button');
+        const uploadedImage = document.getElementById('uploaded-image');
+        const canvas = document.getElementById('canvas');
+
+        // Handle image upload
+        uploadButton.addEventListener('click', () => {
+            const file = imageUpload.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage.src = e.target.result;
+                uploadedImage.style.display = 'block'; // Show the uploaded image
+                canvas.style.display = 'none'; // Hide the canvas
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Dress click handling logic
+        const dresses = document.querySelectorAll('.dress');
+        dresses.forEach(dress => {
+            dress.addEventListener('click', () => {
+                const img = new Image();
+                img.src = dress.src;
+                img.onload = function () {
+                    const context = canvas.getContext('2d');
+                    canvas.width = uploadedImage.naturalWidth; // Match canvas size
+                    canvas.height = uploadedImage.naturalHeight;
+                    context.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
+                    context.drawImage(uploadedImage, 0, 0); // Draw uploaded image
+                    context.drawImage(img, 50, 50, img.width / 3, img.height / 3); // Draw selected dress
+                    canvas.style.display = 'block'; // Show the canvas
+                };
+            });
+        });
+    </script>
+</body>
+</html>

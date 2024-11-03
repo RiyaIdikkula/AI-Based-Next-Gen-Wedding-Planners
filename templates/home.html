@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WoodCrest - Luxury Wedding Planning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/nivo-slider/css/nivo-slider.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/nivo-slider/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/nivo-slider/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reponsive.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    :root {
+        --primary-color: #d4af37; /* Gold */
+        --secondary-color: #f8f1e0; /* Light cream */
+        --text-color: #4a4a4a; /* Dark gray */
+        --header-height: 80px;
+        --banner-top-padding: 20px;
+        --border-color: #ffffff;
+        --border-accent-color: var(--primary-color);
+        --title-color: #ffffff;
+        --subtitle-color: #f0f0f0;
+        --cta-text-color: #333333;
+        --cta-hover-color: #e0c158; /* Lighter gold for hover */
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-color);
+        padding-top: var(--header-height);
+        background-color: var(--secondary-color);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Playfair Display', serif;
+    }
+    {% comment %} .section {
+        margin-top: 130px; /* Adjust this value to create more or less space */
+    } {% endcomment %}
+   
+    .section.banner {
+        margin-top:20px;
+        padding: var(--banner-top-padding) 20px 0;
+        position: relative;
+        height: calc(100vh - var(--header-height) - var(--banner-top-padding));
+        min-height: 600px;
+        min-width: 600px;
+        overflow: hidden;
+    }
+
+    .tiva-slideshow-wrapper {
+        height: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .tiva-slideshow-wrapper::before,
+    .tiva-slideshow-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid var(--border-color);
+        border-radius: 15px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .tiva-slideshow-wrapper::before {
+        animation: borderPulse 4s infinite;
+    }
+
+    .tiva-slideshow-wrapper::after {
+        animation: borderPulse 4s infinite 2s;
+    }
+
+    @keyframes borderPulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.7; }
+    }
+
+    #tiva-slideshow {
+        height: 100%;
+    }
+
+    #tiva-slideshow img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .banner-overlay {
+        position: absolute;
+        top: var(--banner-top-padding);
+        left: 20px;
+        right: 20px;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        z-index: 1;
+    }
+
+    .banner-title {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        color: var(--title-color);
+    }
+
+    .banner-subtitle {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        color: var(--subtitle-color);
+    }
+
+    .cta-button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        background-color: var(--primary-color);
+        color: var(--cta-text-color);
+        border: none;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background-color: var(--cta-hover-color);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-section {
+        padding: 70px 0;
+        background-color: white;
+    }
+
+    .service-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 50px;
+        color: var(--primary-color);
+        text-align: center;
+    }
+
+    .services-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .service-box {
+        background-color: var(--secondary-color);
+        border-radius: 12px;
+        padding: 30px;
+        width: 250px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .service-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-box h3 {
+        margin: 20px 0 10px;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .service-box i {
+        font-size: 3rem;
+        color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+        .section.banner {
+            padding: var(--banner-top-padding) 10px 0;
+        }
+
+        .banner-overlay {
+            left: 10px;
+            right: 10px;
+        }
+
+        .banner-title {
+            font-size: 2.5rem;
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+        }
+
+        .cta-button {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+
+        .service-box {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    /* Update any links or other elements that might have default blue color */
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: var(--cta-hover-color);
+    }
+
+    .color-change {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #000;
+        transition: color 0.5s ease-in-out;
+    }
+    
+    .color-change:hover {
+        color: #e91e63;
+    }
+
+    .zoom-in {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        transform: scale(0);
+        animation: zoomIn 1.5s ease-out forwards;
+    }
+    
+    @keyframes zoomIn {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .service-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-link:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+</style>
+<body>
+    <header>
+    {% include 'headercustomer.html' %}
+    </header>
+    {% comment %} <div class="section">
+        <h2 class="zoom-in">Next Gen Wedding Planner</h2>
+    </div> {% endcomment %}
+    <!-- Slideshow Section -->
+    <div class="section banner">
+        <div class="tiva-slideshow-wrapper">
+            <div id="tiva-slideshow" class="nivoSlider">
+                <img src="{% static 'img/slider-01.jpg' %}" alt="Elegant wedding venue">
+                <img src="{% static 'img/slider-02.jpg' %}" alt="Beautiful bride and groom">
+                <img src="{% static 'img/slider-03.jpg' %}" alt="Luxurious wedding decor">
+            </div>
+        </div>
+        <div class="banner-overlay">
+            <h1 class="banner-title">Your Dream Wedding Awaits</h1>
+            <p class="banner-subtitle">Let us create the perfect day you've always imagined</p>
+            <a href="{% url 'login' %}" class="cta-button">Start Planning Now</a>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="service-section">
+        <h2 class="service-title">Our Exclusive Services</h2>
+        <div class="services-container">
+            <a href="{% url 'photographers' %}" class="service-link">
+                <div class="service-box">
+                    <i class="fa fa-camera-retro"></i>
+                    <h3>Photographers</h3>
+                    <p>Capture every magical moment</p>
+                </div>
+            </a>
+            <a href="{% url 'stylists' %}" class="service-link">
+                <div class="service-box">
+                    <i class="fas fa-lipstick"></i>
+                    <h3>Stylists & Makeup</h3>
+                    <p>Look stunning with professional styling and makeup</p>
+                </div>
+            </a>
+            <a href="#" class="service-link">
+                <div class="service-box">
+                    <i class="fa fa-birthday-cake"></i>
+                    <h3>Catering</h3>
+                    <p>Exquisite culinary experiences</p>
+                </div>
+            </a>
+            <a href="{% url 'events' %}" class="service-link">
+                <div class="service-box">
+                    <i class="fa fa-paint-brush"></i>
+                    <h3>Event Decor</h3>
+                    <p>Beautiful decorations for your perfect day</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Vendor JS -->
+    <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'libs/nivo-slider/js/jquery.nivo.slider.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+    <!-- Initialize NivoSlider -->
+    <script>
+        $(window).on('load', function() {
+            $('#tiva-slideshow').nivoSlider({
+                effect: 'fade',
+                animSpeed: 5000,
+                pauseTime: 5000,
+                directionNav: false,
+                controlNav: false,
+                pauseOnHover: false
+            });
+        });
+    </script>
+</body>
+</html>

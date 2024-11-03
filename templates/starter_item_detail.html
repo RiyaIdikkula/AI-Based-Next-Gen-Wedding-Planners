@@ -1,0 +1,226 @@
+{% include 'headercustomer.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ photographer.name }} - Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .container-wrapper {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+        .photographer-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .image-item:hover {
+            transform: scale(1.05);
+        }
+        .image-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .back-btn {
+            margin-bottom: 20px;
+        }
+        .modal-fullscreen {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            max-width: none;
+        }
+        .modal-fullscreen .modal-content {
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .modal-image {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .slide-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .slide-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        .slide-prev { left: 20px; }
+        .slide-next { right: 20px; }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1050;
+        }
+        
+        .modal-header .close {
+            padding: 1rem;
+            margin: -1rem -1rem -1rem auto;
+            font-size: 2rem;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-header .close:hover {
+            opacity: 1;
+        }
+        
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+            padding: 1rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+        }
+        
+        .modal-footer .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .modal-footer .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container-wrapper">
+        <div class="container">
+            <div class="back-button-container">
+                <a href="javascript:history.back()" class="back-button">&larr; Back</a>
+            </div>
+            
+            <div class="photographer-info">
+                <p><strong>Description:</strong> <ul>
+                    {% for line in starter.description.splitlines %}
+                        <li>{{ line }}</li>
+                    {% endfor %}
+                </ul></p>
+            </div>
+            
+            <h2 class="mt-5 mb-4">Photo Gallery</h2>
+            <div class="image-gallery">
+                {% for image in images %}
+                    <div class="image-item">
+                        <img src="{{ image.image.url }}" alt="{{ starter.name}} - Image {{ forloop.counter }}" class="gallery-image" data-image-id="{{ forloop.counter0 }}">
+                    </div>
+                {% empty %}
+                    <p>No images available for this photographer.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+<!-- Modal for full-screen image -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="" id="modalImage" class="modal-image">
+                <button class="slide-button slide-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="slide-button slide-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = Array.from(document.querySelectorAll('.gallery-image'));
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const prevButton = document.querySelector('.slide-prev');
+            const nextButton = document.querySelector('.slide-next');
+            let currentImageIndex = 0;
+
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    currentImageIndex = parseInt(this.dataset.imageId);
+                    updateModalImage();
+                    $('#imageModal').modal('show');
+                });
+            });
+
+            prevButton.addEventListener('click', function() {
+                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+                updateModalImage();
+            });
+
+            nextButton.addEventListener('click', function() {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                updateModalImage();
+            });
+
+            function updateModalImage() {
+                modalImage.src = images[currentImageIndex].src;
+                modalImage.alt = images[currentImageIndex].alt;
+            }
+        });
+    </script>
+</body>
+</html>

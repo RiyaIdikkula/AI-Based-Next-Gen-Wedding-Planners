@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photographers</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Photographer Container */
+.photographers-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    scroll-behavior: smooth;
+    cursor: grab;
+    margin: 30px auto;
+    max-width: 1200px; /* Max width for better alignment */
+}
+
+.photographers-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.photographers-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.photographers-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.photographers-container.active {
+    cursor: grabbing;
+}
+
+/* Photographer Card */
+.photographer-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden; /* Ensures content stays within card */
+}
+
+.photographer-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Photographer Images */
+.photographer-images {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.photographer-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Photographer Info */
+.photographer-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.photographer-info h2 {
+    margin: 10px 0;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #333;
+}
+
+.photographer-info p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 1em;
+}
+
+/* Add Button */
+.add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .photographers-container {
+        padding: 10px;
+        width: 100%;
+    }
+    
+    .photographer-card {
+        width: 100%;
+        height: auto;
+    }
+}
+
+    </style>
+</head>
+<body>
+    {% include 'headercustomer.html' %}
+    <main>
+        <h1>Photographers-Customers</h1>
+        <div class="photographers-container">
+            {% for photographer in photographers %}
+                <div class="photographer-card">
+                    <div class="photographer-images">
+                        {% for image in photographer.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ photographer.name }} image" class="photographer-image">
+                        {% endfor %}
+                    </div>
+                    <div class="photographer-info">
+                        <h2>{{ photographer.name }}</h2>
+                        <p>Contact: {{ photographer.contact_number }}</p>
+                        <p>{{ photographer.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+    <button class="add-button">+</button>
+
+    <script>
+        // JavaScript for image slideshow
+        document.querySelectorAll('.photographer-images').forEach(container => {
+            let currentIndex = 0;
+            const images = container.querySelectorAll('.photographer-image');
+            images.forEach((img, index) => {
+                if (index !== 0) img.style.display = 'none';
+            });
+            setInterval(() => {
+                images[currentIndex].style.display = 'none';
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].style.display = 'block';
+            }, 3000); // Change image every 3 seconds
+        });
+
+        // JavaScript for swipe functionality
+        const container = document.querySelector('.photographers-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        container.addEventListener('mousedown', (e) => {
+            isDown = true;
+            container.classList.add('active');
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+            container.classList.remove('active');
+        });
+
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+            container.classList.remove('active');
+        });
+
+        container.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2; //scroll-fast
+            container.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>

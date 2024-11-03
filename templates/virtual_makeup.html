@@ -1,0 +1,31 @@
+
+
+{% block content %}
+<h2>Face Swap</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="user_image" accept="image/*" required>
+    <select name="dress_image" required>
+        {% for dress in dresses %}
+        <option value="{{ dress.image.url }}">{{ dress.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Swap Face</button>
+</form>
+
+{% if result_image %}
+<h3>Result:</h3>
+<img src="{{ result_image }}" alt="Face Swap Result">
+{% endif %}
+
+<h3>Available Dresses:</h3>
+<div class="dress-grid">
+    {% for dress in dresses %}
+    <div class="dress-card">
+        <img src="{{ dress.image.url }}" alt="{{ dress.name }}">
+        <h4>{{ dress.name }}</h4>
+        <p>{{ dress.description }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

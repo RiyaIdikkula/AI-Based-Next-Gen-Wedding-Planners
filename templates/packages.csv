@@ -1,0 +1,5 @@
+package_id,name,price
+1,Default Package,0.00
+5,Diamond,200000.00
+6,Gold,100000.00
+10,Silver,50000.00

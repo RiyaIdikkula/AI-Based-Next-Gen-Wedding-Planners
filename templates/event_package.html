@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photographers</title>
+    <style>
+     
+            :root {
+                --primary-color: #34495e;
+                --secondary-color: #3498db;
+                --background-color: #ecf0f1;
+                --card-background: #ffffff;
+                --text-color: #2c3e50;
+                --border-radius: 8px;
+            }
+            /* Header styling */
+            header {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                background-color: #ffffff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #fff5f0;
+                color: #333;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+                padding-top: 120px;
+            }
+        
+            /* Main container styling */
+            .family-session-container {
+                max-width: 800px;
+                margin: 60px auto;
+                text-align: center;
+                padding: 30px;
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+                font-family: 'Roboto', sans-serif;
+            }
+            
+            /* Headings and paragraphs styling */
+            .family-session-container h1 {
+                font-family: 'Playfair Display', serif;
+                font-size: 32px;
+                color: #1B2B03;
+                margin-bottom: 20px;
+                font-weight: 700;
+            }
+            
+            .family-session-container p {
+                font-size: 18px;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+        
+            /* Session details section */
+            .session-details {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                font-family: 'Roboto', sans-serif;
+                color: #1B2B03;
+            }
+        
+            /* Session info styling */
+            .session-info {
+                flex: 1;
+                text-align: left;
+                padding-right: 20px;
+                max-width: 300px;
+            }
+        
+            .session-info h2 {
+                font-size: 24px;
+                color: #290774;
+                margin-bottom: 10px;
+            }
+        
+            .session-info p {
+                margin: 10px 0;
+                color: #290774;
+            }
+        
+            .price {
+                font-size: 24px;
+                color: #5bd098;
+                margin-top: 20px;
+            }
+        
+            /* Button styling */
+            .book-now {
+                background-color: #ff7a8a;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                margin-top: 10px;
+            }
+        
+            .book-now:hover {
+                background-color: #e06676;
+            }
+        
+            /* Image slider styling */
+            .image-slider {
+                flex: 1;
+                max-width: 400px;
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+                margin: auto;
+            }
+        
+            .image-slider img {
+                width: 100%;
+                display: none;
+                transition: opacity 1s ease-in-out;
+            }
+        
+            .image-slider img.active {
+                display: block;
+                opacity: 1;
+            }
+        
+            .next-btn {
+                background-color: #3498db;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                width: 200px; /* Increased width */
+            }
+            
+            .next-btn:hover {
+                background-color: #2980b9;
+            }
+        
+            /* Media queries for responsiveness */
+            @media (max-width: 768px) {
+                .session-details {
+                    flex-direction: column;
+                }
+        
+                .session-info {
+                    padding-right: 0;
+                    max-width: 100%;
+                    text-align: center;
+                }
+        
+                .image-slider {
+                    max-width: 100%;
+                    height: auto;
+                }
+        
+                .next-btn {
+                    position: static;
+                    margin-top: 10px;
+                }
+            }
+        
+            /* Back button styling */
+        
+        .back-button-container {
+            position: fixed;
+            top: 100px;
+            left: 40px;
+            z-index: 1000;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 585px;
+            margin-right:20px;
+            left: 40px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #3498db;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-left: 479px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid #3498db;
+        }
+        
+        .back-button:hover {
+            background-color: #3498db;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-button::before {
+            content: '←';
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .button-container {
+            position: fixed;
+            bottom: 20px; /* Position it at the bottom */
+            left: 0; /* Align to the left */
+            right: 0; /* Align to the right */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center the content */
+            z-index: 1000;
+        }
+
+        .back-button, .next-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            color: #3498db;
+            border: 1px solid #3498db;
+            width: 100px;
+            height: 36px;
+            cursor: pointer;
+        }
+
+        .back-button:hover, .next-button:hover {
+            background-color: #3498db;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button::before {
+            content: '←';
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        .next-button::after {
+            content: '→';
+            margin-left: 6px;
+            font-size: 16px;
+        }
+
+      
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+            h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #1B2B03;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+        </style>
+    </style>
+</head>
+<body>
+
+        <header>
+            {% include 'headercustomer.html' %}
+        </header>
+        <h1>Events</h1>
+       <p>Our wedding events are crafted to make your special day truly unforgettable. From the vibrant Haldi ceremony to the elegant engagement, every moment is thoughtfully planned and beautifully executed. We cater to all cultures and traditions, ensuring each event, whether it’s a grand Sangeet, a serene Christian wedding, or a colorful Hindu celebration, reflects your unique style and personality. With attention to every detail, from décor and lighting to music and cuisine, we create an atmosphere that brings your vision to life, making every wedding event a celebration of love, family, and tradition.</p>
+        
+       {% for event in events %}
+        <div class="family-session-container">
+           
+            <h1>{{ event.event_type_name }}</h1>
+            <p>{{ event.description }}</p>
+            <div class="session-details">
+                <div class="session-info">
+                    <h2>{{ event.event_type_name }}</h2>
+                    <p>{{ event.event_description }}</p>
+                    <p>Package: {{event.package.name }}</p>
+                    {% comment %} <p class="price">Price: {{ event.package.price }} </p> {% endcomment %}
+                </div>
+                <div class="image-slider" data-event-id="{{ event.event_id }}">
+                    {% for image in event.images.all %}
+                        <img src="{{ image.image.url }}" alt="{{ event.event_type_name }}" class="slider-image {% if forloop.first %}active{% endif %}">
+                    {% endfor %}
+                    <a href="{% url 'event_customer' item_id=event.event_id %}" class="btn btn-secondary">See More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+        <!-- Next Button outside the family-session-container -->
+      <!-- Next Button outside the family-session-container -->
+<!-- <div class="next-btn-container">
+    <button class="next-btn" data-package-id="{{ package.package_id }}">Next</button>
+</div>
+
+        <div class="back-button-container">
+            <a href="javascript:history.back()" class="back-button"> Back</a>
+        </div> -->
+
+        <div class="button-container">
+            <a href="javascript:history.back()"><button class="back-button">Back</button></a>
+            <button class="next-button" data-package-id="{{ package.package_id }}">Next</button>
+        </div>
+        <script>
+               document.addEventListener('DOMContentLoaded', function() {
+            const sliders = document.querySelectorAll('.image-slider');
+            const nextBtn = document.querySelector('.next-button');
+            
+            sliders.forEach(slider => {
+                const images = slider.querySelectorAll('.slider-image');
+                let currentImageIndex = 0;
+    
+                function showNextImage() {
+                    images[currentImageIndex].classList.remove('active');
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    images[currentImageIndex].classList.add('active');
+                }
+    
+                // Automatically change image every 5 seconds
+                setInterval(showNextImage, 5000);
+            });
+    
+            // Handle Back button click
+            const backBtn = document.querySelector('.back-button');
+            backBtn.addEventListener('click', function() {
+                window.history.back();
+            });
+
+            // Handle Next button click
+            nextBtn.addEventListener('click', function() {
+                const packageId = this.getAttribute('data-package-id');
+                window.location.href = `/package/${packageId}/stylist/`;
+            });
+        });
+        </script>
+    </body>
+    </html>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliders = document.querySelectorAll('.image-slider');
+            const nextBtn = document.querySelector('.next-btn');
+            
+            sliders.forEach(slider => {
+                const images = slider.querySelectorAll('.slider-image');
+                let currentImageIndex = 0;
+    
+                function showNextImage() {
+                    images[currentImageIndex].classList.remove('active');
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    images[currentImageIndex].classList.add('active');
+                }
+    
+                // Automatically change image every 5 seconds
+                setInterval(showNextImage, 5000);
+            });
+    
+            // Handle Next button click
+            nextBtn.addEventListener('click', function() {
+                const packageId = this.getAttribute('data-package-id');
+                window.location.href = `/package/${packageId}/stylist/`;
+            });
+        });
+    </script>
+</body>
+</html>
