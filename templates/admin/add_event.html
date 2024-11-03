@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+    <style>
+        .form-control {
+            border-radius: 4px; /* Rounded corners for input fields */
+            border: 1px solid #ced4da; /* Light border color */
+            padding: 0.75rem; /* Padding for better spacing */
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-red-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+    <script>
+        
+    </script>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="main-content">
+                    <div class="form-container">
+                    <h1 class="mb-4 text-center">Add Event</h1>
+                    {% comment %} {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %} {% endcomment %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% comment %} <div class="form-group">
+        <label for="occasion_id">Occasion:</label>
+        <select name="occasion_id" id="occasion_id" class="form-control" required style="width: 100%; height: 50px;">
+            {% for occasion in occasions %}
+                <option value="{{ occasion.occasion_id }}">{{ occasion.name }}</option>
+            {% endfor %}
+        </select>
+    </div> {% endcomment %}
+    {% comment %} <div class="form-group">
+        <label for="id">Religion:</label>
+        <select name="id" id="id" class="form-control" required style="width: 100%; height: 50px;">
+            {% for religion in religions %}
+                <option value="{{ religion.id }}">{{ religion.religion }}</option>
+            {% endfor %}
+        </select>
+    </div> {% endcomment %}
+    <div class="form-group">
+        <label for="package_id">Package:</label>
+        <select name="package_id" id="package_id" class="form-control" required style="width: 100%; height: 50px;">
+            {% for package in packages %}
+                <option value="{{ package.package_id }}">{{ package.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="event_type_name">Event Type Name:</label>
+        <input type="text" name="event_type_name" id="name" class="form-control" required>
+        <small id="error1" class="form-text text-danger">Name must contain only letters and spaces.</small>
+    </div>
+    <div class="form-group">
+        <label for="event_description">Event Description:</label>
+        <textarea name="event_description" id="event_description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="images">Images:</label>
+        <input type="file" name="images" id="images" class="form-control" accept="image/jpeg, image/png, image/webp" multiple required style="width: 100%; height: 50px;">
+        <small id="image-error" class="form-text text-danger">Invalid image file. Ensure the file is an image (JPEG, PNG, GIF) and under 5 MB.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Event</button>
+</form>
+<a href="{% url 'event_list' %}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+</div>
+</main>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    var namePattern = /^[a-zA-Z\s]*$/;
+    $("#name").keyup(function () {
+        var name = $(this).val();
+        if (!namePattern.test(name)) {
+            $("#error1").show();
+        } else {
+            $("#error1").hide();
+        }
+    });
+</script>
+</body>
+</html>

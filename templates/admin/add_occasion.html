@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Occasion</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+    <style>
+        .form-container {
+            max-width: 800px; /* Increased width */
+            margin: 50px auto;
+            padding: 40px; /* Increased padding */
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .form-container .form-group {
+            margin-bottom: 1.5rem; /* Increased space between form elements */
+        }
+        .form-container .btn {
+            padding: 12px 20px; /* Larger button padding */
+            font-size: 1.2rem; /* Larger button text */
+        }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-red-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="main-content">
+                    <div class="form-container">
+                        <h1 class="mb-4 text-center">Add Occasion</h1>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                                <small id="name-error" class="form-text text-danger">Name must contain only letters and spaces.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="images">Images:</label>
+                                <input type="file" id="images" name="images" class="form-control-file" accept="image/jpeg, image/png, image/webp" multiple required>
+                                <small id="image-error" class="form-text text-danger">Invalid image file. Ensure the file is an image (JPEG, PNG, GIF) and under 5 MB.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Occasion</button>
+                           
+                        </form>
+                        <a href="{% url 'view_occasions' %}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+                    </div>
+                   
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

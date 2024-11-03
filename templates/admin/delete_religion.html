@@ -1,0 +1,38 @@
+<!-- templates/store/delete_religion.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Religion</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                <div class="col-md-6">
+                    <h1 class="text-center mb-4">Delete Religion</h1>
+                    <p class="text-center">Are you sure you want to delete the religion "{{ religion.religion }}"?</p>
+                    <form method="POST" class="text-center">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a href="{% url 'view_religions' %}" class="btn btn-secondary">No, go back</a>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

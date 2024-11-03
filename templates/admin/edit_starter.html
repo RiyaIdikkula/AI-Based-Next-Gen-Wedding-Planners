@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Starter</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+
+            <main role="main" class="col-md-10 ml-sm-auto px-4 main-content">
+                <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                    <div class="col-md-8">
+                        <h1 class="mb-4 text-center">Edit Starter</h1>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" name="name" id="name" class="form-control" value="{{ starter.name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="description" class="form-control" required>{{ starter.description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="package_id">Package:</label>
+                                <select name="package_id" id="package_id" class="form-control" style="width: 100%; height: 50px;" required>
+                                    {% for package in packages %}
+                                        <option value="{{ package.package_id }}" {% if starter.package_id.package_id == package.package_id %}selected{% endif %}>
+                                            {{ package.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="starter_type">Type:</label>
+                                <select name="starter_type" id="starter_type" class="form-control" style="width: 100%; height: 50px;" required>
+                                    <option value="Veg" {% if starter.starter_type == 'Veg' %}selected{% endif %}>Vegetarian</option>
+                                    <option value="Non-Veg" {% if starter.starter_type == 'Non-Veg' %}selected{% endif %}>Non-Vegetarian</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="images">Add New Images:</label>
+                                <input type="file" name="images" id="images" class="form-control" multiple>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Images:</label>
+                                <div class="row">
+                                    {% for image in starter.images.all %}
+                                        <div class="col-md-4 mb-3">
+                                            <img src="{{ image.image.url }}" alt="Starter Image" class="img-fluid">
+                                            <div class="form-check mt-2">
+                                                <input type="checkbox" class="form-check-input" name="delete_images" value="{{ image.id }}" id="delete_image_{{ image.id }}">
+                                                <label class="form-check-label" for="delete_image_{{ image.id }}">Delete</label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Update Starter</button>
+                        </form>
+                        <a href="{% url 'starter_list' %}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

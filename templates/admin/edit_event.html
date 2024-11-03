@@ -1,0 +1,189 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Occasion</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+</head>
+<style>
+    /* admin_styles.css */
+
+/* General Styles */
+body {
+    background-color: #f8f9fa; /* Light gray background for the whole page */
+}
+
+/* Main Container */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Main Content */
+.main-content {
+    padding: 20px;
+    background-color: #ffffff; /* White background for the form area */
+    border-radius: 8px; /* Rounded corners for the form area */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the form area */
+}
+
+/* Heading */
+h1 {
+    color: #333; /* Dark color for the heading */
+}
+
+/* Form Styles */
+form {
+    padding: 20px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Form Labels */
+.form-group label {
+    font-weight: bold;
+    color: #333; /* Dark text color for labels */
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 4px; /* Rounded corners for input fields */
+    border: 1px solid #ced4da; /* Light border color */
+    padding: 0.75rem; /* Padding for better spacing */
+}
+
+/* File Input */
+.form-control[type="file"] {
+    padding: 0.375rem 0.75rem; /* Padding specific to file input */
+}
+
+/* Image Display */
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check img {
+    border-radius: 4px; /* Rounded corners for images */
+    margin-right: 10px; /* Space between image and checkbox */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #007bff; /* Blue background */
+    border-color: #007bff; /* Blue border */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #004085; /* Darker border color on hover */
+}
+
+.btn-block {
+    width: 100%; /* Full-width button */
+    margin-top: 20px; /* Space above the button */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+</style>
+<body>
+{% include 'admin/header.html' %}
+
+<div class="container-fluid">
+    <div class="row">
+            <!-- Include Sidebar -->
+        {% include 'admin/sidebar.html' %}
+
+        <main role="main" class="col-md-10 ml-sm-auto px-4 main-content">
+            <div class="container d-flex justify-content-center align-items-center" style="height: 120vh;">
+                <div class="col-md-8">
+                    <h1 class="mb-4 text-center">Edit Event</h1>
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        {% comment %} <div class="form-group">
+                            <label for="occasion_id">Occasion:</label>
+                            <select name="occasion_id" id="occasion_id" class="form-control" required required style="width: 100%; height: 50px;">
+                                {% for occasion in occasions %}
+                                    <option value="{{ occasion.occasion_id }}" {% if event.occasion_id == occasion.occasion_id %}selected{% endif %}>{{ occasion.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div> {% endcomment %}
+                        {% comment %} <div class="form-group">
+                            <label for="id">Religion:</label>
+                            <select name="id" id="id" class="form-control" required required style="width: 100%; height: 50px;">
+                                {% for religion in religions %}
+                                    <option value="{{ religion.id }}" {% if event.id == religion.id %}selected{% endif %}>{{ religion.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div> {% endcomment %}
+                        <div class="form-group">
+                            <label for="package_id">Package:</label>
+                                <select name="package_id" id="package_id" class="form-control" required required style="width: 100%; height: 50px;">
+                                    {% for package in packages %}
+                                        <option value="{{ package.package_id }}" {% if event.package_id == package.package_id %}selected{% endif %}>{{ package.name }}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event_type_name">Event Type Name:</label>
+                            <input type="text" name="event_type_name" id="event_type_name" class="form-control" value="{{ event.event_type_name }}" readonly>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="event_description">Event Description:</label>
+                            <textarea name="event_description" id="event_description" class="form-control" required>{{ event.event_description }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                                <label for="images">Images:</label>
+                                <input type="file" class="form-control-file" name="images" required style="width: 100%; height: 50px;" multiple accept="image/jpeg, image/png, image/webp">
+                                
+                                <div class="mt-2">
+                                    {% for image in event.images.all %}
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="delete_images" value="{{ image.id }}">
+                                            <label class="form-check-label">
+                                                <img src="{{ image.image.url }}" alt="{{ event.event_type_name }}" width="100">
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <small id="image-error" class="form-text text-danger">Invalid image file. Ensure the file is an image (JPEG, PNG, GIF) and under 5 MB.</small>
+                        </div>
+                            <button type="submit" class="btn btn-primary btn-block">Update Event</button>
+                        
+                    </form>
+                    <a href="{% url 'event_list' %}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

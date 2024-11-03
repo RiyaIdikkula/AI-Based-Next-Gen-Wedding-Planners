@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px; /* Set maximum width */
+            margin: auto; /* Center horizontally */
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 600px;
+            /* Add margin to separate from the header */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 500px;
+        }
+        table {
+            width: auto; /* Change to auto to let the table fit its content */
+            border-collapse: collapse;
+            margin-bottom:1000px;
+            margin-left: 200px; /* Ensure some space from the header */
+        }
+        th, td {
+            padding: 12px; /* Increased padding for better spacing */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #6c5ce7;
+            color: white;
+        }
+        td {
+            font-size: 2em; /* Larger font size for emojis */
+            vertical-align: middle; /* Align text and emojis properly */
+        }
+        tr:hover {
+            background-color: #f1f1f1; /* Hover effect for rows */
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+    {% include 'admin/sidebar.html' %}
+    <div class="container">
+        <h1>Customer Complaints</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Feedback</th>
+                    <th>Submitted On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                <tr>
+                    <td>{{ feedback.customer.username }}</td>
+                    <td>{{ feedback.suggestion }}</td>
+                    <td>{{ feedback.created_at|date:"F j, Y, g:i a" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align:center;">No Complaint available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

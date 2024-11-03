@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Dresses</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="container mt-4">
+                    <h1 class="mb-4">Dresses</h1>
+                    <a href="{% url 'add_dress' %}" class="btn btn-primary mb-4">Add Dress</a>
+                    
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                <tr>
+                   
+                    <th>Package</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Images</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                        {% for dress in dresses %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card dress-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ dress.name }}</h5>
+                                        <p class="card-text">{{ dress.description }}</p>
+                                        <p><strong>Package:</strong> {{ dress.package.name }}</p>
+                                        <div class="dress-images">
+                                            {% for image in dress.images.all %}
+                                                <img src="{{ image.image.url }}" alt="{{ dress.name }}" class="img-fluid dress-image">
+                                            {% empty %}
+                                                <p>No images available.</p>
+                                            {% endfor %}
+                                        </div>
+                                        
+                                        <a href="#" class="btn btn-sm btn-info">Edit</a>
+                                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No dresses available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

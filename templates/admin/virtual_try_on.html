@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 600px; /* Adjust as needed */
+            margin-bottom: 20px;
+        }
+        .dress-container, .user-container {
+            position: relative;
+            width: 300px; /* Set width for alignment */
+            height: 300px; /* Set height for alignment */
+            margin: 0 10px; /* Space between divs */
+        }
+        #canvas {
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Ensure responsiveness */
+            height: auto;
+        }
+        #dressImage, #userImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Prevent interactions */
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        input[type="file"] {
+            margin: 10px 0; /* Space between file input and other elements */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 300px; /* Align with container */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Try On: {{ dress.name }}</h1>
+    <div class="container">
+        <div class="dress-container">
+            <canvas id="canvas" width="300" height="300"></canvas>
+            <img id="dressImage" src="{{ dress.images.first.image.url }}" alt="Dress Overlay" />
+        </div>
+        <div class="user-container">
+            <img id="userImage" alt="User Upload" />
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+        </div>
+    </div>
+    <button id="capture">Capture Image</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const dressImage = document.getElementById('dressImage');
+        const userImage = document.getElementById('userImage');
+
+        // Handle image upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    userImage.src = e.target.result; // Set the uploaded image
+                    userImage.onload = drawOverlay; // Draw overlay when the image is loaded
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Draw user image and overlay dress
+        function drawOverlay() {
+            const context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
+            context.drawImage(userImage, 0, 0, canvas.width, canvas.height); // Draw user image
+
+            // Overlay dress
+            const dressImg = new Image();
+            dressImg.src = dressImage.src; // Use current dress image
+            dressImg.onload = () => {
+                const dressWidth = 200; // Set width of the dress
+                const dressHeight = 200; // Set height of the dress
+                const dressX = (canvas.width - dressWidth) / 2; // Center dress horizontally
+                const dressY = 20; // Adjust Y position
+                context.drawImage(dressImg, dressX, dressY, dressWidth, dressHeight); // Overlay dress
+            };
+        }
+
+        // Capture image from canvas
+        document.getElementById('capture').addEventListener('click', () => {
+            drawOverlay(); // Redraw overlay when capturing
+        });
+    </script>
+</body>
+</html>

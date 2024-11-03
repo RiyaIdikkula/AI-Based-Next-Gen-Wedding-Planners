@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../ecom_project"
+		},
+		{
+			"path": "../../static"
+		},
+		{
+			"path": "../../store"
+		},
+		{
+			"path": ".."
+		}
+	]
+}

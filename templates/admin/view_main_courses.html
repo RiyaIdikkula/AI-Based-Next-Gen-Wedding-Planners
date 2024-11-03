@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Occasions</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="container mt-4 container-sm">
+                    <h1 class="mb-4">Main Course</h1>
+                    <a href="{% url 'add_main_course' %}" class="btn btn-primary mb-4">Add Main-Course</a>
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                <tr>
+                   
+                    <th>Package</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Images</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for main_course in main_courses %}
+                <tr>
+                    
+                    <td>{{ main_course.package.name }}</td>
+                    <td>{{ main_course.name }}</td>
+                    <td>{{ main_course.description }}</td>
+                    
+                     
+                    <td>
+                        {% for image in main_course.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ main_course.name }}" width="100">
+                        {% endfor %}
+                    </td>
+                    <td>{{ main_course.get_type_display }}</td>
+                    <td>
+                        <a href="{% url 'edit_main_course' main_course.main_course_id %}" class="btn btn-sm btn-info btn-edit">Edit</a>
+                        <a href="{% url 'delete_main_course' main_course.main_course_id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</main>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

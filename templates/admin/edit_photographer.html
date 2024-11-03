@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Photographer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+    <script src="{% static 'js/admin.js' %}" defer></script>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin/header.html' %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Include Sidebar -->
+            {% include 'admin/sidebar.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="container mt-4 container-sm">
+                    <div class="form-container">
+                        <h1 class="mb-4 text-center">Edit Photographer</h1>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name"  name="name" value="{{ photographer.name }}" readonly>
+                                <small id="name-error" class="form-text text-danger">Name must contain only letters and spaces.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_number">Contact Number:</label>
+                                <input type="text" class="form-control" id="phone"  name="contact_number" value="{{ photographer.contact_number }}" required>
+                                <small id="phone-error" class="form-text text-danger">Phone number must be 10 digits long and start with 6, 7, 8, or 9.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control"id="description" name="description" required>{{ photographer.description }}</textarea>
+                            </div>
+                        <div class="form-group">
+                                <label for="package_id">Package:</label>
+                                <select class="form-control" id="package_id" name="package_id" style="width: 100%; height: 50px;" required>
+                                    {% for package in packages %}
+                                        <option value="{{ package.package_id }}" {% if photographer.package.id == package.package_id %}selected{% endif %}>{{ package.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div> 
+                            <div class="form-group">
+                                <label for="images">Images:</label>
+                                <input type="file" class="form-control-file" id="images" name="images" style="width: 100%; height: 50px;" multiple>
+                                <div class="mt-2">
+                                    {% for image in photographer.images.all %}
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="delete_images" value="{{ image.id }}">
+                                            <label class="form-check-label">
+                                                <img src="{{ image.image.url }}" alt="{{ photographer.name }}" width="100">
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Update Photographer</button>
+                        </form>
+                        <a href="{% url 'photographer_list' %}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

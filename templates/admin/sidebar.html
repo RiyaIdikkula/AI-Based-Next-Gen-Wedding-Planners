@@ -1,0 +1,67 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_customers' %}">
+                    Customers
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'view_packages' %}">
+                    Packages
+                </a>
+            </li>
+             <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'checkout_details' %}">
+                    Order
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'event_list' %}">
+                    Event
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'starter_list' %}">
+                    Starter
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'view_main_courses' %}">
+                   Main Course
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'view_desserts' %}">
+                   Deserts
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'photographer_list' %}">
+                    Photographer
+                </a>
+            </li>
+           <li class="nav-item">
+                <a class="nav-link" href="{% url 'feedback_list' %}">
+                    Feedback
+                </a>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'complaint_list' %}">
+                    Complaint
+                </a>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'stylist_list' %}">
+                    Stylist
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
