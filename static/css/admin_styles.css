@@ -1,0 +1,340 @@
+/* admin_styles.css */
+
+/* Sidebar */
+.sidebar {
+    background-color: #f1ddcf; /* Salmon background color */
+    height: 100vh; /* Full height of the viewport */
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Ensure sidebar stays above content */
+    padding-top: 1rem; /* Example padding top */
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 1rem; /* Example spacing from top */
+}
+
+.sidebar .nav-link {
+    font-size: 1.2rem; /* Font size for sidebar links */
+    color: #0c0d0d; /* Text color */
+    padding: 1rem; /* Padding for each link */
+}
+
+.sidebar .nav-link.active {
+    font-weight: bold; /* Bold font for active link */
+}
+
+.sidebar .nav-link:hover {
+    color: #007bff; /* Hover color */
+}
+
+/* Navbar */
+.navbar {
+    padding: 1rem 2rem; /* Adjusted padding */
+    background-color: lavender; /* Lavender background color */
+    color: #2f0505; /* Text color */
+    font-size: 1.6rem; /* Font size */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+.navbar-brand {
+    padding: 0; /* Remove padding to prevent extra spacing */
+}
+
+.navbar-brand img {
+    height: 50px; /* Adjust image height */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.4rem; /* Font size */
+    padding: 1rem 1.5rem; /* Padding for each link */
+    color: #ffffff; /* Text color */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff; /* Hover color */
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold; /* Bold font for active link */
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem; /* Padding for main content */
+}
+
+.card {
+    margin-bottom: 1rem; /* Bottom margin for cards */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Card shadow */
+}
+
+.card-body {
+    padding: 1.5rem; /* Padding inside card body */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Font size for card titles */
+    margin-bottom: 0.5rem; /* Bottom margin for card titles */
+}
+
+.card-text {
+    font-size: 1.2rem; /* Font size for card text */
+    color: #6c757d; /* Text color */
+}
+
+/* Table */
+.table {
+    background-color: #ffffff; /* Table background color */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Table box shadow */
+    width: 100%; /* Full width */
+    margin-bottom: 1rem; /* Bottom margin */
+}
+
+.table th,
+.table td {
+    padding: 0.75rem; /* Padding for table cells */
+    vertical-align: middle; /* Vertical alignment */
+    border-top: none; /* Remove top border */
+}
+
+.table th {
+    font-weight: bold; /* Bold font for table headers */
+    background-color: #f8f9fa; /* Header background color */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa; /* Alternate row background color */
+}
+
+.table th,
+.table td {
+    text-align: center; /* Center align table cells */
+}
+
+.table th:first-child,
+.table td:first-child {
+    text-align: left; /* Left align first column */
+}
+
+.table th:last-child,
+.table td:last-child {
+    text-align: right; /* Right align last column */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f0f0f0; /* Hover row background color */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+/* admin_styles.css */
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 24px; /* Adjust the font size as needed */
+    color: white; /* Adjust the text color if needed */
+}
+.navbar .navbar-text {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+.custom-font {
+    font-family: 'YourChosenFontFamily', sans-serif;
+    /* Add other styles if needed */
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.form-container label {
+    font-weight: bold;
+}
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-container button:hover {
+    background-color: #0056b3;
+}
+.form-text.text-danger {
+    display: none;
+    font-size: 0.875em;
+}
+
+    /* admin_styles.css */
+
+/* General Styles */
+body {
+    background-color: #f8f9fa; /* Light gray background for the whole page */
+}
+
+/* Main Container */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Main Content */
+.main-content {
+    padding: 20px;
+    background-color: #ffffff; /* White background for the form area */
+    border-radius: 8px; /* Rounded corners for the form area */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the form area */
+}
+
+/* Heading */
+h1 {
+    color: #333; /* Dark color for the heading */
+}
+
+/* Form Styles */
+form {
+    padding: 20px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Form Labels */
+.form-group label {
+    font-weight: bold;
+    color: #333; /* Dark text color for labels */
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 4px; /* Rounded corners for input fields */
+    border: 1px solid #ced4da; /* Light border color */
+    padding: 0.75rem; /* Padding for better spacing */
+}
+
+/* File Input */
+.form-control[type="file"] {
+    padding: 0.375rem 0.75rem; /* Padding specific to file input */
+}
+
+/* Image Display */
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check img {
+    border-radius: 4px; /* Rounded corners for images */
+    margin-right: 10px; /* Space between image and checkbox */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #007bff; /* Blue background */
+    border-color: #007bff; /* Blue border */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #004085; /* Darker border color on hover */
+}
+
+.btn-block {
+    width: 100%; /* Full-width button */
+    margin-top: 20px; /* Space above the button */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.form-container label {
+    font-weight: bold;
+}
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-container button:hover {
+    background-color: #0056b3;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-red-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.error { color: red; display: none; }
