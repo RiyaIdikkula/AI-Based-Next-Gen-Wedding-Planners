@@ -1885,55 +1885,55 @@ def event(request):
     events = Event.objects.prefetch_related('images').all()
     return render(request, 'event.html', {'events': events})
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.conf import settings
-from .models import Photographer, PhotographerImage
-from .ml_model import compress_image_pillow, compress_with_tensorflow
-import os
+# from django.shortcuts import render, get_object_or_404, redirect
+# from django.conf import settings
+# from .models import Photographer, PhotographerImage
+# from .ml_model import compress_image_pillow, compress_with_tensorflow
+# import os
 
-def upload_photographer_images(request, photographer_id):
-    # Retrieve the photographer object or return a 404 error if not found
-    photographer = get_object_or_404(Photographer, photographer_id=photographer_id)
+# def upload_photographer_images(request, photographer_id):
+#     # Retrieve the photographer object or return a 404 error if not found
+#     photographer = get_object_or_404(Photographer, photographer_id=photographer_id)
     
-    if request.method == 'POST':
-        uploaded_files = request.FILES.getlist('images')
+#     if request.method == 'POST':
+#         uploaded_files = request.FILES.getlist('images')
         
-        # Paths for saving images
-        image_folder = os.path.join(settings.MEDIA_ROOT, 'photographer_images')
-        compressed_folder_pillow = os.path.join(settings.MEDIA_ROOT, 'compressed_photographer_images_pillow')
-        compressed_folder_tf = os.path.join(settings.MEDIA_ROOT, 'compressed_photographer_images_tf')
+#         # Paths for saving images
+#         image_folder = os.path.join(settings.MEDIA_ROOT, 'photographer_images')
+#         compressed_folder_pillow = os.path.join(settings.MEDIA_ROOT, 'compressed_photographer_images_pillow')
+#         compressed_folder_tf = os.path.join(settings.MEDIA_ROOT, 'compressed_photographer_images_tf')
         
-        # Create directories if they don't exist
-        os.makedirs(image_folder, exist_ok=True)
-        os.makedirs(compressed_folder_pillow, exist_ok=True)
-        os.makedirs(compressed_folder_tf, exist_ok=True)
+#         # Create directories if they don't exist
+#         os.makedirs(image_folder, exist_ok=True)
+#         os.makedirs(compressed_folder_pillow, exist_ok=True)
+#         os.makedirs(compressed_folder_tf, exist_ok=True)
 
-        for file in uploaded_files:
-            image_path = os.path.join(image_folder, file.name)
+#         for file in uploaded_files:
+#             image_path = os.path.join(image_folder, file.name)
             
-            # Save the original image
-            with open(image_path, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
+#             # Save the original image
+#             with open(image_path, 'wb+') as destination:
+#                 for chunk in file.chunks():
+#                     destination.write(chunk)
 
-            # Compress image using Pillow
-            compressed_image_pillow_path = os.path.join(compressed_folder_pillow, f'compressed_{file.name}')
-            compress_image_pillow(image_path, compressed_image_pillow_path)
+#             # Compress image using Pillow
+#             compressed_image_pillow_path = os.path.join(compressed_folder_pillow, f'compressed_{file.name}')
+#             compress_image_pillow(image_path, compressed_image_pillow_path)
 
-            # Compress image using TensorFlow
-            compressed_image_tf_path = os.path.join(compressed_folder_tf, f'compressed_tf_{file.name}')
-            compress_with_tensorflow(image_path, compressed_image_tf_path)
+#             # Compress image using TensorFlow
+#             compressed_image_tf_path = os.path.join(compressed_folder_tf, f'compressed_tf_{file.name}')
+#             compress_with_tensorflow(image_path, compressed_image_tf_path)
 
-            # Save compressed image (Pillow) to the PhotographerImage model
-            PhotographerImage.objects.create(
-                photographer=photographer,
-                image=compressed_image_pillow_path  # Save the Pillow compressed image
-            )
+#             # Save compressed image (Pillow) to the PhotographerImage model
+#             PhotographerImage.objects.create(
+#                 photographer=photographer,
+#                 image=compressed_image_pillow_path  # Save the Pillow compressed image
+#             )
 
-        # Redirect to the photographer's detail page after successful upload and compression
-        return redirect('photographer_detail', photographer_id=photographer_id)
+#         # Redirect to the photographer's detail page after successful upload and compression
+#         return redirect('photographer_detail', photographer_id=photographer_id)
 
-    return render(request, 'admin/upload_photographer_images.html', {'photographer': photographer})
+#     return render(request, 'admin/upload_photographer_images.html', {'photographer': photographer})
 
 
 # from django.shortcuts import render, redirect
