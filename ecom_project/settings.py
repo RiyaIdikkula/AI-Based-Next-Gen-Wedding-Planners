@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-5j^=k5xg*g@jt-n*c0*oigvz#mk4x@rmv%z+ze4%($(b2u(1e%
 DEBUG = True
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ai-based-next-gen-wedding-planners.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
